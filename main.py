@@ -35,7 +35,7 @@ app.config['SECRET_KEY'] = "it's a secret"
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
-
+db.create_all()
 @app.route('/')
 def home():
     # search = SearchMatch()
