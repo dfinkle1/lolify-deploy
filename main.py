@@ -217,3 +217,5 @@ def update_user_summoner(username):
     user.summoner = request.form['summoner']
     db.session.commit()
     return redirect(f'/users/{username}')
+
+db.create_all()
