@@ -218,4 +218,3 @@ def update_user_summoner(username):
     db.session.commit()
     return redirect(f'/users/{username}')
 
-db.create_all()
