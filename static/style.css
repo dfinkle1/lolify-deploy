@@ -1,0 +1,95 @@
+body {
+  color: #b0ffea;
+  background-image: linear-gradient(to left top, #2c3531 0%, #116466 100%);
+  background-attachment: fixed;
+}
+
+/* user profile  */
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  top: 10px;
+  margin-left: -100px;
+}
+
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.profile-info {
+  display: d-flex;
+  flex-direction: column;
+}
+
+.profile-username {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.bio {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.custom-card {
+  background-color: #02323e80;
+  color: #b0ffea;
+}
+
+/* I use this to alter the colors of the team displayed on a users profile/search feature */
+
+.table {
+  width: 750px;
+  height: 250px;
+  font-size: 15px;
+  border-bottom: none;
+}
+
+.table.blueteam {
+  background-color: #47abff;
+  color: #02323e;
+  border-radius: 10px;
+}
+
+.table.redteam {
+  background: #f82f2fe8;
+  color: rgb(255 255 255);
+  border-radius: 10px;
+}
+
+/* Navbar color customization below */
+
+.navbar-custom {
+  background-color: #1c551c29;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: #77ffdb;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+  color: #73fad6;
+}
+
+.table.redteam a {
+  text-decoration: none;
+  color: #f8f1f1;
+}
+
+.table.blueteam a {
+  text-decoration: none;
+  color: #312b6e;
+}
+.table a:hover {
+  color: blue;
+}

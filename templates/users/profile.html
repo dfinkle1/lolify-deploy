@@ -1,0 +1,132 @@
+{% extends 'base.html' %}{% block content %}
+
+<div class="row">
+  <div class="col-6">
+    <div class="d-flex align-items-center">
+      <img src="{{user.image_url}}" class="avatar-img" alt="Profile Picture" />
+      <div class="d-flex flex-column">
+        <br />
+        <h2 class="m-0">{{user.username.capitalize()}}</h2>
+        <p class="m-0">{%if user.bio != none%} {{user.bio}} {% endif %}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="d-flex justify-content-center">
+      <div class="d-flex flex-column">
+        {% if user.summoner == None %}
+        <form method="POST" action="/update_summoner/{{user.username}}">
+          <p class="mt-2">Add a Summoner Name to your Profile!</p>
+          <input
+            class="form-control"
+            type="text"
+            name="summoner"
+            placeholder="Summoner Name"
+            maxlength="16"
+          /><button class="btn btn-primary btn-sm" type="submit">Submit</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-lg-3">
+    {% if user.summoner is none %} {% else %} {% if rank[1]['queueType']
+    =='RANKED_SOLO_5x5'%} {% set rank = rank[1] %}
+    <div class="card custom-card" style="width: 14rem">
+      <div class="card-body">
+        <h5 class="card-title">{{rank['summonerName']}}</h5>
+        <h6 class="mb-2">
+          {{rank['tier']}} - {{rank['rank']}}
+          <br />{{rank['wins']}}-{{rank['losses']}} {% set total =
+          rank['losses']+rank['wins'] %}
+          <small>WR: {{(rank['wins']/total*100)|round()|int }}% </small>
+        </h6>
+      </div>
+    </div>
+    {% else %} {% set rank = rank[0] %}
+    <div class="card custom-card" style="width: 14rem">
+      <div class="card-body">
+        <h5 class="card-title">{{rank['summonerName']}}</h5>
+        <h6 class="mb-2">
+          {{rank['tier']}} - {{rank['rank']}}
+          <br />{{rank['wins']}}-{{rank['losses']}} {% set total =
+          rank['losses']+rank['wins'] %}
+          <small>WR: {{(rank['wins']/total*100)|round()|int }}% </small>
+        </h6>
+      </div>
+    </div>
+    {% endif %} {% endif %}
+  </div>
+  <div class="col-lg-9">
+    {% if user.summoner is none %} {% else %}
+    <h1 class="d-flex justify-content-center">
+      Match History for {{user.summoner}}
+    </h1>
+    {% for game in games %} {% for puuid in game['info']['participants'] %} {%
+    if puuid['puuid'] == summoner['puuid'] %} {% set player = puuid %}
+    <h3 class="d-flex justify-content-center">Match</h3>
+    <div class="col-12 d-flex justify-content-center">
+      <table
+        class="table {% if player.win == True %} blueteam {% else %}redteam{% endif %} text-center"
+      >
+        <tbody>
+          <tr>
+            <th>Summoner</th>
+            <th>Champion</th>
+            <th>KDA</th>
+            <th>Gold</th>
+            <th>Damage</th>
+            <th>Control Wards</th>
+          </tr>
+          {% for puuid in game['info']['participants'] %} {% if puuid['teamId']
+          == player.teamId %}
+          <tr>
+            <td>{{puuid['summonerName']}}</td>
+            <td>{{puuid['championName']}}</td>
+            <td>{{puuid['kills']}}/{{puuid['deaths']}}/{{puuid['assists']}}</td>
+            <td>{{puuid['goldEarned']}}</td>
+            <td class="">{{puuid['totalDamageDealtToChampions']}}</td>
+            <td>{{puuid['visionWardsBoughtInGame']}}</td>
+          </tr>
+          {%endif%} {%endfor%}
+        </tbody>
+      </table>
+      {% endif %} {% endfor %}
+    </div>
+    {% for puuid in game['info']['participants'] %} {% if puuid['puuid'] ==
+    summoner['puuid'] %} {% set player = puuid %}
+    <div class="col-12 d-flex justify-content-center">
+      <table
+        class="table {% if player.win != True %} blueteam{% else %}redteam{% endif %} text-center"
+      >
+        <tbody>
+          <tr>
+            <th>Summoner</th>
+            <th>Champion</th>
+            <th>KDA</th>
+            <th>Gold</th>
+            <th>Damage</th>
+            <th>Control Wards</th>
+          </tr>
+          {% for puuid in game['info']['participants'] %} {% if puuid['teamId']
+          != player.teamId%}
+          <tr>
+            <td>{{puuid['summonerName']}}</td>
+            <td>{{puuid['championName']}}</td>
+            <td>{{puuid['kills']}}/{{puuid['deaths']}}/{{puuid['assists']}}</td>
+            <td>{{puuid['goldEarned']}}</td>
+            <td class="">{{puuid['totalDamageDealtToChampions']}}</td>
+            <td>{{puuid['visionWardsBoughtInGame']}}</td>
+          </tr>
+          {%endif%} {%endfor%}
+        </tbody>
+      </table>
+      {% endif %} {% endfor %}
+    </div>
+    {%endfor%} {% endif %}
+  </div>
+</div>
+
+{% endblock %}
