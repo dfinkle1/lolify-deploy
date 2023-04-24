@@ -49,4 +49,3 @@ class Puuid(db.Model):
     puuid = db.Column(db.String, nullable = False,unique=True,primary_key=True)
     username = db.Column(db.String,nullable=False,unique=True)
     
-db.create_all()
