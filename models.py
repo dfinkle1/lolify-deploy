@@ -48,3 +48,5 @@ class Puuid(db.Model):
     __tablename__ = 'puuids'
     puuid = db.Column(db.String, nullable = False,unique=True,primary_key=True)
     username = db.Column(db.String,nullable=False,unique=True)
+    
+db.createAll()
