@@ -36,11 +36,21 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 db.create_all()
-@app.route('/')
+
+
+@app.route('/',methods=['GET','POST'])
 def home():
-    # search = SearchMatch()
+    form=SearchMatch()
+    if form.validate_on_submit():
+        username = form.search.data.lower()
+        return redirect(f'/search/{username}')
+    return render_template('index.html',form=form)
+
+@app.route('/champions')
+def champions():
+    form=SearchMatch()
     championlist = lol_watcher.data_dragon.champions('13.5.1')
-    return render_template('index.html',champions=championlist)
+    return render_template('champions.html',champions=championlist)
 
 @app.route('/search',methods=['GET','POST'])
 def search():
